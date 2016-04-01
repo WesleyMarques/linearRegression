@@ -12,7 +12,7 @@ require(ggplot2)
 library(corrplot)
 require(caret)
 
-dados <- read.table("~/workspaceR/linearRegression/data/prostate.data")
+dados <- read.table("~/workspaceR/LinearRegression/data/prostate.data")
 ```
 
 ## Objetivo da análise
@@ -60,3 +60,40 @@ Como foi dado, existe um campo para nos dizer se uma amostra é do tipo treino o
 train <- filter(dados,train)
 test <- filter(dados,!train)
 ```
+
+#Treinando meu modelo
+
+Para realizar o treino, precisamos verificar quais preditores são melhores para se ter um modelo com a melhor acurácia possível. Para isso, a princípio, uma das melhores formas de se realizar o treino é escolhendo preditores com um alto valor de correlação com a variável resposta. Acima, temos os valores das correlações entre as variáveis, e com base nisso, foram escolhidas as variáveis: lcavol, svi e lcp. 
+
+```{r}
+lm <- lm(lpsa ~ lcavol+svi+lcp,data = train)
+```
+
+Temos agora um modelo e basta verificar a acurácia desse modelo
+
+
+```{r}
+lm
+summary(lm)
+```
+
+## Realizando a previsão
+
+```{r}
+prediction <- predict(lm, select(test,lcavol, svi, lcp))
+lm_prediction <- data.frame(pred = prediction, obs = test$lpsa)
+ggplot(lm_prediction, aes(x = pred, y = obs)) + geom_point(alpha = 0.5, position = position_jitter(width=0.2)) + geom_abline(colour = "blue") + ggtitle("Previsão x Observado (validação)")
+round(defaultSummary(lm_prediction), digits = 3)
+```
+
+# Com os dados expostos, podemos responder as seguintes perguntas: 
+
+> Há evidência de relação entre os preditores e a variável alvo?
+
+> Havendo relação, quão forte é essa relação?
+
+> Que variável parece contribuir mais?
+
+> A relação sugere um modelo de regressão linear?
+
+
