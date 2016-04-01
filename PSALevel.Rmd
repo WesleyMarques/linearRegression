@@ -1,30 +1,32 @@
 ---
-title: "PSALevel"
-author: "Wesley Nunes"
-date: "March 31, 2016"
+title: "PSALevel - Regressão linear"
+author: "Wesley Nunes Marques Torres"
+date: "April 01, 2016"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, echo=FALSE}
+library(dplyr)
+require(reshape2)
+require(ggplot2)
+library(corrplot)
+require(caret)
+
+dados <- read.table("~/workspaceR/linearRegression/data/prostate.data")
 ```
 
-## R Markdown
+## Objetivo da análise
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Prever o nível do PSA em pacientes através de uma regressão linear.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Um pouco sobre os dados
 
-```{r cars}
-summary(cars)
+Temos para análise um dataset com 97 observações com 8 variáveis preditoras e 1 variável resposta. Abaixo podemos verificar um pouco sobre a descrição de cada variável e seu tipo:
+
+```{r}
+dim(dados)
+str(dados)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
