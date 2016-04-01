@@ -21,12 +21,42 @@ Prever o nível do PSA em pacientes através de uma regressão linear.
 
 ## Um pouco sobre os dados
 
-Temos para análise um dataset com 97 observações com 8 variáveis preditoras e 1 variável resposta. Abaixo podemos verificar um pouco sobre a descrição de cada variável e seu tipo:
+Temos para análise um dataset com 97 observações com 8 variáveis preditoras, 1 variável para especificar se é treino ou não e 1 variável resposta. Abaixo podemos verificar um pouco sobre a descrição de cada variável e seu tipo:
 
 ```{r}
 dim(dados)
 str(dados)
 ```
 
+Ao sumarizar os dados, podemos verificar que há uma boa consistência nos dados e que não se tem alguma discrepância, mas com um boxsplot podemos identificar outliers, mas que neste caso, não irá nos interessar;
 
+```{r}
+summary(dados)
+boxplot(dados, main="Boxsplot", xlab="Variables", ylab="Count")
+```
 
+## Scatter plot dos dados
+
+Podemos verificar o relacionamento entre as variáveis com a variável resposta através de um scatter plot. Abaixo, o que chama atenção é poder avaliar a dispersão entre as variáveis e mais precisamente a da variável resposta(lpsa)
+
+```{r}
+plot(dados, main="Scatterplot", pch=1)
+```
+
+## Análise de correlação
+
+Como se pode analisar no gráfico abaixo, a correlação com sí próprio é redundante e logicamente, tem um valor alto. A correlação será de suma importância para escola dos preditores da variável resposta. Com o plot abaixo podemos perceber que temos ótimos candidatos para preditores.
+
+```{r}
+correlationMatrix <- cor(dados)
+corrplot(correlationMatrix, method="number", type="lower", order="hclust")
+```
+
+## Separando dados para treino
+
+Como foi dado, existe um campo para nos dizer se uma amostra é do tipo treino ou teste. Abaixo, vamos separar esses dados em diferentes dataframes para realizar o treino do modelo de forma correta.
+
+```{r}
+train <- filter(dados,train)
+test <- filter(dados,!train)
+```

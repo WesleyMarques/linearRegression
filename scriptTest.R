@@ -1,10 +1,13 @@
 dados <- read.table("~/workspaceR/linearRegression/data/prostate.data")
 df <- melt(dados)
-plot(dados$lcavol, dados$lpsa, main="Scatterplot Example", xlab="lcavol ", ylab="lpsa", pch=19)
+
+summary(dados)
+
+boxplot(dados, main="Boxsplot", xlab="Variables", ylab="Count")
 
 ggplot(df,aes(x = value)) + facet_wrap(~variable, scales = "free_x") + geom_histogram()
 correlationMatrix <- cor(dados)
-corrplot(correlationMatrix, method="circle", type="lower", order="hclust")
+corrplot(correlationMatrix, method="number", type="lower", order="hclust")
 
 train <- filter(dados,train)
 test <- filter(dados,!train)
