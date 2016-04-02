@@ -83,17 +83,43 @@ summary(lm)
 prediction <- predict(lm, select(test,lcavol, svi, lcp))
 lm_prediction <- data.frame(pred = prediction, obs = test$lpsa)
 ggplot(lm_prediction, aes(x = pred, y = obs)) + geom_point(alpha = 0.5, position = position_jitter(width=0.2)) + geom_abline(colour = "blue") + ggtitle("Previsão x Observado (validação)")
-round(defaultSummary(lm_prediction), digits = 3)
 ```
 
 # Com os dados expostos, podemos responder as seguintes perguntas: 
 
 > Há evidência de relação entre os preditores e a variável alvo?
 
+Podemos identificar evidências de relação entre preditores e variável alvo analisando a correlação entre elas. Com isso, temos que as variáveis lcavol(Volume do câncer), svi(invasão das vesículas seminais) e cp(penetração capsular) são fortes candidatos para preditores que me darão uma boa acurácia no meu modelo.
+
 > Havendo relação, quão forte é essa relação?
+
+Como já foi mostrado no gráfico acima, mas temos os seguintes valores para representar um relação entre os preditores escolhidos e a variável resposta. Com valores de 0-1, indicando nível de correlação, de mais fraco para mais forte, temos:
+
+* lcavol X lpsa = 0.73
+* svi X lpsa = 0.57
+* lcp X lpsa = 0.55
 
 > Que variável parece contribuir mais?
 
+Tendo como base o nível de correlação, a variável **lcavol** aparentemente possui uma maior contribuição para o modelo.
+
 > A relação sugere um modelo de regressão linear?
+
+```{r}
+summary(lm)
+
+ggplot(lm_prediction, aes(y = obs - pred, x = pred)) + 
+  geom_point(alpha = 0.5, position = position_jitter(width=0.1)) + 
+  geom_abline(slope = 0, intercept = 0, colour = "darkred")
+```
+
+Pelo gráfico de resíduo e uma sumarização dos dados, vemos que temos um grande indício para se utilizar a regressão linear. Um dos fatores é o da Mediana dos resíduos se encontrar próximo de zero e módulo do 1Q e do 3Q serem aproximados. 
+
+Por fim, temos os valores de RMSE = 0.665, que é muito bom, pois nos diz a o erro dos valores esperados para os observados e como foi baixo, já nos diz que o uso de Regressão é uma boa opção para esse caso. Outra informação importante é o Rsquared = 58,5%, que nos diz o quando minhas variáveis explicam meu modelo. Com isso, temos os valores finais abaixo para a predição do nível do PSA em pacientes:
+
+
+```{r}
+round(defaultSummary(lm_prediction), digits = 3)
+```
 
 

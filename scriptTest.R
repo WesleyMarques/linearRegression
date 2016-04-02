@@ -1,4 +1,4 @@
-dados <- read.table("~/workspaceR/linearRegression/data/prostate.data")
+dados <- read.table("~/workspaceR/LinearRegression/data/prostate.data")
 df <- melt(dados)
 
 summary(dados)
