@@ -2,7 +2,7 @@
 title: "PSALevel - Regressão linear"
 author: "Wesley Nunes Marques Torres"
 date: "April 01, 2016"
-output: html_document
+output: pdf_document
 ---
 
 ```{r, echo=FALSE}
@@ -122,4 +122,4 @@ Por fim, temos os valores de RMSE = 0.665, que é muito bom, pois nos diz a o er
 round(defaultSummary(lm_prediction), digits = 3)
 ```
 
-
+<br>
